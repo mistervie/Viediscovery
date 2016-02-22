@@ -9,6 +9,9 @@
 #import "VIEShowMainViewController.h"
 #import "VIEShowLoginViewController.h"
 #import "VIEHTTPSessionManager.h"
+#import <UIImageView+WebCache.h>
+#import <MJRefresh/MJRefresh.h>
+
 
 @interface VIEShowMainViewController ()<UITableViewDataSource>
 @property(copy, nonatomic)NSString *token;
@@ -16,45 +19,27 @@
 @property(strong, nonatomic)NSDictionary *dic;
 @property(strong, nonatomic)NSMutableArray *marray;
 @property(weak, nonatomic)UITableView *tv;
+@property(assign, nonatomic)NSInteger page;
+@property(assign, nonatomic)NSInteger i;
 @end
 
 @implementation VIEShowMainViewController
 
+//- (NSMutableArray *)topics
+//{
+//    if (!_marray) {
+//        _marray = [NSMutableArray array];
+//    }
+//    return _marray;
+//}
+
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+// [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getData) name:@"SL_Close" object:nil];
     
-    /*
-    self.view.backgroundColor = [UIColor blueColor];
-    
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
-    button.frame = CGRectMake(10, 100, 100, 30);
-    [button setBackgroundColor:[UIColor whiteColor]];
-    [button setTitle:@"TEST" forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(pushLogin) forControlEvents:UIControlEventTouchUpInside];
-    
-    
-    UILabel *label = [[UILabel alloc]init];
-    label.frame = CGRectMake(10, 150, 200, 30);
-    label.backgroundColor = [UIColor whiteColor];
-    self.label = label;
-    
-    UIButton *buttonReloadTextFiledData = [UIButton buttonWithType:UIButtonTypeSystem];
-    buttonReloadTextFiledData.frame = CGRectMake(10, 200, 100, 30);
-    [buttonReloadTextFiledData setBackgroundColor:[UIColor whiteColor]];
-    [buttonReloadTextFiledData setTitle:@"GetData" forState:UIControlStateNormal];
-    [buttonReloadTextFiledData addTarget:self action:@selector(getTokenInfo) forControlEvents:UIControlEventTouchUpInside];
-    
-    
-    
-    [self.view addSubview:label];
-    
-    [self.view addSubview:button];
-    
-    [self.view addSubview:buttonReloadTextFiledData];
-     */
-   // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getData) name:@"SL_Close" object:nil];
-    [self getData];
+    self.marray = [[NSMutableArray alloc]init];
     
     UITableView *tv = [[UITableView alloc]init];
     tv.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
@@ -62,18 +47,95 @@
     self.tv = tv;
     
     [self.view addSubview:self.tv];
+    
+    self.i = 0;
+    self.page = 1;//设定当前刷新页为第一页
+    [self setupRefresh];//加载界面后直接执行刷新方法
 }
 
 
+//刷新方法
+-(void)setupRefresh{
+    self.tv.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+    self.tv.mj_header.automaticallyChangeAlpha = YES;
+    [self.tv.mj_header beginRefreshing];
+    
+  //    .stateLabel.font = [UIFont systemFontOfSize:15];
+//    self.tv.mj_header.lastUpdatedTimeLabel.font = [UIFont systemFontOfSize:14];
+    
+    self.tv.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+   
+}
+
+
+//下拉刷新最新数据
+-(void)loadNewData{
+    self.page = 1;
+    NSString *path = @"2/statuses/friends_timeline.json";
+    NSMutableDictionary *md = [NSMutableDictionary dictionary];
+    md[@"page"] = @(self.page);
+ //   NSLog(@"%d",self.page);
+    [self getTokenDic];
+    if (self.dic == nil) {
+        NSLog(@"dic is nil,pushLogin");
+        [self pushLogin];
+    }else{
+        md[@"access_token"]=self.dic[@"access_token"];
+        VIEHTTPSessionManager *session = [VIEHTTPSessionManager manager];
+        session.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
+        [session GET:path parameters:md progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            NSArray *array = responseObject[@"statuses"];
+            [self.marray addObjectsFromArray:array];
+            [self.tv reloadData];
+            [self.tv.mj_header endRefreshing];
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            NSLog(@"--------------%@",error);
+        }];
+    }
+    
+}
+
+
+//上拉刷新更多数据
+-(void)loadMoreData{
+    
+    self.page++ ;
+    NSString *path = @"2/statuses/friends_timeline.json";
+    NSMutableDictionary *md = [NSMutableDictionary dictionary];
+    md[@"page"]=@(self.page);
+  //  NSLog(@"%d",self.page);
+    [self getTokenDic];
+    if (self.dic == nil) {
+        NSLog(@"dic is nil,pushLogin");
+        [self pushLogin];
+    }else{
+        md[@"access_token"]=self.dic[@"access_token"];
+        VIEHTTPSessionManager *session = [VIEHTTPSessionManager manager];
+        session.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
+        [session GET:path parameters:md progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            NSArray *array = responseObject[@"statuses"];
+            [self.marray addObjectsFromArray:array];
+            [self.tv reloadData];
+            [self.tv.mj_footer endRefreshing];
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            NSLog(@"--------------%@",error);
+        }];
+    }
+
+}
+
+//界面出现时执行刷新最新数据方法
 -(void)viewDidAppear:(BOOL)animated{
-    [self getData];
+    [self loadNewData];
 }
 //弹出登录界面
 -(void)pushLogin{
     VIEShowLoginViewController *slv = [[VIEShowLoginViewController alloc]init];
+    /*
     slv.block = ^(NSString *str){
         //block传值
     };
+     */
     [self.navigationController pushViewController:slv animated:YES];
 }
 
@@ -84,47 +146,31 @@
     NSString *plistPath = [cachesDirectory stringByAppendingPathComponent:@"tokenInfo.plist"];
     NSDictionary *dic = [NSDictionary dictionaryWithContentsOfFile:plistPath];
     self.dic = dic;
-    NSLog(@"%@",dic);
+  //  NSLog(@"%@",dic);
 
 }
 
--(void)getData{
-    NSString *path = @"2/statuses/friends_timeline.json";
-    NSMutableDictionary *md = [NSMutableDictionary dictionary];
-    [self getTokenDic];
-    if (self.dic == nil) {
-        NSLog(@"dic is nil,pushLogin");
-        [self pushLogin];
-    }else{
-        md[@"access_token"]=self.dic[@"access_token"];
-        VIEHTTPSessionManager *session = [VIEHTTPSessionManager manager];
-        session.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
-        [session GET:path parameters:md progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            NSMutableArray *marray = responseObject[@"statuses"];
-            self.marray = marray;
-            [self.tv reloadData];
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            NSLog(@"--------------%@",error);
-        }];
-    }
-    
-}
 
 
+//表格行数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    NSLog(@"%d",self.marray.count);
     return self.marray.count;
 }
 
-// Row display. Implementers should *always* try to reuse cells by setting each cell's reuseIdentifier and querying for available reusable cells with dequeueReusableCellWithIdentifier:
-// Cell gets various attributes set automatically based on table (separators) and data source (accessory views, editing controls)
-
+//单元格属性
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *ID = @"cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:ID];
     }
-    cell.textLabel.text = self.marray[indexPath.row][@"text"];
+    //cell.textLabel.text = [NSString stringWithFormat:@"%@",self.marray[indexPath.row][@"id"]];
+    
+    NSString *time = self.marray[indexPath.row][@"created_at"];
+    cell.textLabel.text = time;
+    cell.detailTextLabel.text = self.marray[indexPath.row][@"text"];
+    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:self.marray[indexPath.row][@"user"][@"profile_image_url"]]];
     return cell;
 }
 
@@ -135,14 +181,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
