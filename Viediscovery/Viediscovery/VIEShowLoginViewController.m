@@ -62,21 +62,14 @@
             [session POST:path parameters:md progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                 NSLog(@"%@",responseObject);
                 
-                /*
-                NSNotification *notification =[NSNotification notificationWithName:@"tongzhi" object:nil];
-                [[NSNotificationCenter defaultCenter] postNotification:notification];
-                */
+                [self writeIntoPlist:responseObject];//把服务器返回的json写入plist文件
+                [self.navigationController popViewControllerAnimated:YES];//把登录界面pop掉
                 
-                
-                /*
-                NSString *accessToken = responseObject[@"access_token"];
-                self.accessToken = accessToken;
-                self.block(accessToken);
-                */
-                
-                [self writeIntoPlist:responseObject];
-                [self.navigationController popViewControllerAnimated:YES];
-                
+//                NSNotification *notification =[NSNotification notificationWithName:@"SL_Close" object:nil];
+//                [[NSNotificationCenter defaultCenter] postNotification:notification];
+
+//                NSString *tag = responseObject[@"SL_Close"];
+//                self.block(tag);
                 
             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                 NSLog(@"-------%@",error);
