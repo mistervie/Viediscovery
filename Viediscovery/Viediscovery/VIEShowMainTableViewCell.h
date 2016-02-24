@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class VIEShowMainCellModel;
 @interface VIEShowMainTableViewCell : UITableViewCell
+
+//微博模型
+@property (nonatomic, strong) VIEShowMainCellModel *topic;
 
 @end

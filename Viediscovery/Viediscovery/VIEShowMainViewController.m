@@ -11,48 +11,67 @@
 #import "VIEHTTPSessionManager.h"
 #import <UIImageView+WebCache.h>
 #import <MJRefresh/MJRefresh.h>
+#import "VIEShowMainTableViewCell.h"
+#import "VIEShowMainCellModel.h"
+#import <MJExtension/MJExtension.h>
 
-
-@interface VIEShowMainViewController ()<UITableViewDataSource>
+@interface VIEShowMainViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property(copy, nonatomic)NSString *token;
 @property(strong, nonatomic)UILabel *label;
 @property(strong, nonatomic)NSDictionary *dic;
-@property(strong, nonatomic)NSMutableArray *marray;
+
 @property(weak, nonatomic)UITableView *tv;
 @property(assign, nonatomic)NSInteger page;
 @property(assign, nonatomic)NSInteger i;
+
+
+@property(strong, nonatomic) NSMutableArray *topics;
+
 @end
 
 @implementation VIEShowMainViewController
 
-//- (NSMutableArray *)topics
-//{
-//    if (!_marray) {
-//        _marray = [NSMutableArray array];
-//    }
-//    return _marray;
-//}
+- (NSMutableArray *)topics
+{
+    if (!_topics) {
+        _topics = [NSMutableArray array];
+    }
+    return _topics;
+}
 
 
+static NSString * const CellID = @"showMainTableViewCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getData) name:@"SL_Close" object:nil];
     
-    self.marray = [[NSMutableArray alloc]init];
+    
+   
+  
+}
+
+
+-(void)setupTableView{
     
     UITableView *tv = [[UITableView alloc]init];
     tv.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-    tv.dataSource = self;
-    self.tv = tv;
     
+    tv.dataSource = self;
+    tv.delegate = self;//不要忘记设置代理
+    
+   // tv.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
+    
+    
+    [tv registerNib:[UINib nibWithNibName:NSStringFromClass([VIEShowMainTableViewCell class]) bundle:nil] forCellReuseIdentifier:CellID];
+    
+    
+    self.tv = tv;
     [self.view addSubview:self.tv];
     
     self.i = 0;
     self.page = 1;//设定当前刷新页为第一页
-    [self setupRefresh];//加载界面后直接执行刷新方法
 }
-
 
 //刷新方法
 -(void)setupRefresh{
@@ -60,9 +79,7 @@
     self.tv.mj_header.automaticallyChangeAlpha = YES;
     [self.tv.mj_header beginRefreshing];
     
-  //    .stateLabel.font = [UIFont systemFontOfSize:15];
-//    self.tv.mj_header.lastUpdatedTimeLabel.font = [UIFont systemFontOfSize:14];
-    
+
     self.tv.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
    
 }
@@ -84,10 +101,21 @@
         VIEHTTPSessionManager *session = [VIEHTTPSessionManager manager];
         session.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
         [session GET:path parameters:md progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            NSArray *array = responseObject[@"statuses"];
-            [self.marray addObjectsFromArray:array];
-            [self.tv reloadData];
+            NSArray *topicArrays = responseObject[@"statuses"];
+            NSMutableArray *marray = [[NSMutableArray alloc]init];
+            for (NSDictionary *dic in topicArrays) {
+                VIEShowMainCellModel *smcm = [[VIEShowMainCellModel alloc]init];
+                smcm.created_at = dic[@"created_at"];
+                smcm.profile_image_url = dic[@"user"][@"profile_image_url"];
+                NSLog(@"%@",smcm.profile_image_url);
+                smcm.name = dic[@"user"][@"name"];
+                [marray addObject:smcm];
+            }
+        //    [self.topics addObjectsFromArray:marray];
+            self.topics = marray;
             [self.tv.mj_header endRefreshing];
+            [self.tv reloadData];
+            
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             NSLog(@"--------------%@",error);
         }];
@@ -113,8 +141,17 @@
         VIEHTTPSessionManager *session = [VIEHTTPSessionManager manager];
         session.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
         [session GET:path parameters:md progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            NSArray *array = responseObject[@"statuses"];
-            [self.marray addObjectsFromArray:array];
+            NSArray *topicArrays = responseObject[@"statuses"];
+            NSMutableArray *marray = [[NSMutableArray alloc]init];
+            for (NSDictionary *dic in topicArrays) {
+                VIEShowMainCellModel *smcm = [[VIEShowMainCellModel alloc]init];
+                smcm.created_at = dic[@"created_at"];
+                smcm.profile_image_url = dic[@"user"][@"profile_image_url"];
+                NSLog(@"%@",smcm.profile_image_url);
+                smcm.name = dic[@"user"][@"name"];
+                [marray addObject:smcm];
+            }
+            [self.topics addObjectsFromArray:marray];
             [self.tv reloadData];
             [self.tv.mj_footer endRefreshing];
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -126,8 +163,14 @@
 
 //界面出现时执行刷新最新数据方法
 -(void)viewDidAppear:(BOOL)animated{
-    [self loadNewData];
+    [self setupTableView];
+    [self setupRefresh];
+   // [self loadNewData];
 }
+
+
+
+
 //弹出登录界面
 -(void)pushLogin{
     VIEShowLoginViewController *slv = [[VIEShowLoginViewController alloc]init];
@@ -154,25 +197,24 @@
 
 //表格行数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    NSLog(@"%d",self.marray.count);
-    return self.marray.count;
+    NSLog(@"%d",self.topics.count);
+    return self.topics.count;
 }
 
 //单元格属性
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *ID = @"cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:ID];
-    }
-    //cell.textLabel.text = [NSString stringWithFormat:@"%@",self.marray[indexPath.row][@"id"]];
     
-    NSString *time = self.marray[indexPath.row][@"created_at"];
-    cell.textLabel.text = time;
-    cell.detailTextLabel.text = self.marray[indexPath.row][@"text"];
-    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:self.marray[indexPath.row][@"user"][@"profile_image_url"]]];
+    VIEShowMainTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellID];
+    
+    cell.topic = self.topics[indexPath.row];
     return cell;
 }
+
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 80;
+}
+
 
 
 
