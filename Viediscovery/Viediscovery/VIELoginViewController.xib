@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="VIELoginViewController">
+            <connections>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oso-P8-mrM">
+                    <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                    <state key="normal" title="TEST"/>
+                    <connections>
+                        <action selector="pushLoginView:" destination="-1" eventType="touchUpInside" id="gAN-fL-MyE"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="oso-P8-mrM" secondAttribute="trailing" constant="10" id="Jht-zB-YEa"/>
+                <constraint firstAttribute="bottom" secondItem="oso-P8-mrM" secondAttribute="bottom" constant="43" id="SUd-fO-zkg"/>
+            </constraints>
+            <variation key="default">
+                <mask key="subviews">
+                    <exclude reference="oso-P8-mrM"/>
+                </mask>
+                <mask key="constraints">
+                    <exclude reference="Jht-zB-YEa"/>
+                    <exclude reference="SUd-fO-zkg"/>
+                </mask>
+            </variation>
+            <variation key="widthClass=compact">
+                <mask key="subviews">
+                    <include reference="oso-P8-mrM"/>
+                </mask>
+                <mask key="constraints">
+                    <include reference="Jht-zB-YEa"/>
+                    <include reference="SUd-fO-zkg"/>
+                </mask>
+            </variation>
+            <point key="canvasLocation" x="262" y="319"/>
+        </view>
+    </objects>
+</document>

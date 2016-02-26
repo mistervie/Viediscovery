@@ -1,9 +1,9 @@
 //
 //  VIEShowLoginViewController.m
-//  VieWeibo
+//  Viediscovery
 //
-//  Created by 李亚飞 on 16/2/21.
-//  Copyright © 2016年 李亚飞. All rights reserved.
+//  Created by Vie on 16/2/21.
+//  Copyright © 2016年 Vie. All rights reserved.
 //
 
 #import "VIEShowLoginViewController.h"
@@ -18,6 +18,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.navigationController.navigationBarHidden = NO;
+   
+    
     
     NSString *getToken_Request_URL = @"https://api.weibo.com/oauth2/authorize";
     NSString *client_id = @"3082368261";
@@ -37,6 +40,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
@@ -63,13 +67,10 @@
                 NSLog(@"%@",responseObject);
                 
                 [self writeIntoPlist:responseObject];//把服务器返回的json写入plist文件
-                [self.navigationController popViewControllerAnimated:YES];//把登录界面pop掉
+                [self.navigationController popToRootViewControllerAnimated:YES];//把登录界面pop掉
+//                VIEMainFrameNavigationController *smvc = [[VIEMainFrameNavigationController alloc]init];
+//                [self.navigationController addChildViewController:smvc];
                 
-//                NSNotification *notification =[NSNotification notificationWithName:@"SL_Close" object:nil];
-//                [[NSNotificationCenter defaultCenter] postNotification:notification];
-
-//                NSString *tag = responseObject[@"SL_Close"];
-//                self.block(tag);
                 
             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                 NSLog(@"-------%@",error);

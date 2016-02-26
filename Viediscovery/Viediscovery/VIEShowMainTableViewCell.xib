@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -27,7 +28,7 @@
                             <constraint firstAttribute="height" constant="20" id="j0o-L5-wVV"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pqU-FU-xk9">
@@ -36,12 +37,20 @@
                             <constraint firstAttribute="height" constant="20" id="AB8-FR-2Gz"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DhA-CK-zBB" userLabel="Text Label">
+                        <rect key="frame" x="10" y="70" width="487" height="14.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="DhA-CK-zBB" firstAttribute="top" secondItem="od7-dv-MhH" secondAttribute="bottom" constant="10" id="Hvy-Us-tEl"/>
                     <constraint firstAttribute="trailing" secondItem="2PW-6S-YR8" secondAttribute="trailing" constant="10" id="MIW-0i-efd"/>
+                    <constraint firstItem="DhA-CK-zBB" firstAttribute="leading" secondItem="od7-dv-MhH" secondAttribute="leading" id="bKM-Kz-CNx"/>
                     <constraint firstItem="od7-dv-MhH" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="c7n-rt-Hzs"/>
                     <constraint firstAttribute="trailing" secondItem="pqU-FU-xk9" secondAttribute="trailing" constant="10" id="eQK-wf-Hvn"/>
                     <constraint firstItem="pqU-FU-xk9" firstAttribute="leading" secondItem="od7-dv-MhH" secondAttribute="trailing" constant="10" id="haV-zS-3Ob"/>
@@ -49,12 +58,14 @@
                     <constraint firstItem="2PW-6S-YR8" firstAttribute="top" secondItem="od7-dv-MhH" secondAttribute="top" id="k0V-28-StP"/>
                     <constraint firstItem="od7-dv-MhH" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="mKm-F4-U9d"/>
                     <constraint firstItem="pqU-FU-xk9" firstAttribute="bottom" secondItem="od7-dv-MhH" secondAttribute="bottom" id="qap-8h-4j2"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="DhA-CK-zBB" secondAttribute="trailing" constant="10" id="rHD-LA-oeK"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="nameLabel" destination="2PW-6S-YR8" id="Ovq-KM-dEl"/>
                 <outlet property="profile_image" destination="od7-dv-MhH" id="Ygm-hb-wh4"/>
                 <outlet property="timeLabel" destination="pqU-FU-xk9" id="9vE-pb-lsi"/>
+                <outlet property="weibotextLabel" destination="DhA-CK-zBB" id="1Yz-ql-cf0"/>
             </connections>
             <point key="canvasLocation" x="-168.5" y="376.5"/>
         </tableViewCell>

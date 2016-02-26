@@ -1,12 +1,13 @@
 //
 //  VIENavigationController.m
-//  VieWeibo
+//  Viediscovery
 //
-//  Created by 李亚飞 on 16/2/20.
-//  Copyright © 2016年 李亚飞. All rights reserved.
+//  Created by Vie on 16/2/20.
+//  Copyright © 2016年 Vie. All rights reserved.
 //
 
 #import "VIENavigationController.h"
+#import "VIELoginViewController.h"
 #import "VIEShowMainViewController.h"
 
 @interface VIENavigationController ()
@@ -18,31 +19,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
-    
+//    UIViewController *vc = [[UIViewController alloc]init];
+//    [self addChildViewController:vc];
+    self.view.backgroundColor = [UIColor lightGrayColor];
     VIEShowMainViewController *smvc = [[VIEShowMainViewController alloc]init];
-   // [self pushViewController:smvc animated:YES];
-    [self addChildViewController:smvc];
+    [self pushViewController:smvc animated:YES];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tongzhi:) name:@"tongzhi" object:nil];
     
 }
 
-- (void)tongzhi:(NSNotification *)text{
-    [self popViewControllerAnimated:YES];
-    NSLog(@"－－－－－接收到通知------");
-    
-}
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

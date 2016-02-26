@@ -2,11 +2,11 @@
 //  VIEShowMainCellModel.h
 //  Viediscovery
 //
-//  Created by 李亚飞 on 16/2/24.
-//  Copyright © 2016年 李亚飞. All rights reserved.
+//  Created by Vie on 16/2/24.
+//  Copyright © 2016年 Vie. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface VIEShowMainCellModel : NSObject
 
@@ -16,4 +16,12 @@
 
 //微博创建时间
 @property (nonatomic, copy) NSString *created_at;
+
+//微博内容
+@property (nonatomic, copy) NSString *text;
+
+
+/** cell的高度 */
+@property (nonatomic, assign, readonly) CGFloat cellHeight;
+
 @end

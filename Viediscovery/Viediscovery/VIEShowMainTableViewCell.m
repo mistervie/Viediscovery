@@ -2,8 +2,8 @@
 //  VIEShowMainTableViewCell.m
 //  Viediscovery
 //
-//  Created by 李亚飞 on 16/2/22.
-//  Copyright © 2016年 李亚飞. All rights reserved.
+//  Created by Vie on 16/2/22.
+//  Copyright © 2016年 Vie. All rights reserved.
 //
 
 #import "VIEShowMainTableViewCell.h"
@@ -13,6 +13,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *profile_image;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *weibotextLabel;
 
 @end
 @implementation VIEShowMainTableViewCell
@@ -33,6 +34,9 @@
     //微博创建时间
     self.timeLabel.text = topic.created_at;
     
+    
+    //微博内容
+    self.weibotextLabel.text = topic.text;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

@@ -21,6 +21,8 @@
     self.window = [[UIWindow alloc]init];
     self.window.frame = [UIScreen mainScreen].bounds;
     
+    
+    
     self.window.rootViewController = [[VIENavigationController alloc]init];
     
     [self.window makeKeyAndVisible];

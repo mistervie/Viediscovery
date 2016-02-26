@@ -1,9 +1,9 @@
 //
 //  VIEHTTPSessionManager.m
-//  VieWeibo
+//  Viediscovery
 //
-//  Created by 李亚飞 on 16/2/20.
-//  Copyright © 2016年 李亚飞. All rights reserved.
+//  Created by Vie on 16/2/20.
+//  Copyright © 2016年 Vie. All rights reserved.
 //
 
 #import "VIEHTTPSessionManager.h"

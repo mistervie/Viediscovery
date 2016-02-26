@@ -1,13 +1,13 @@
 //
 //  VIEShowMainViewController.m
-//  VieWeibo
+//  Viediscovery
 //
-//  Created by 李亚飞 on 16/2/21.
-//  Copyright © 2016年 李亚飞. All rights reserved.
+//  Created by Vie on 16/2/21.
+//  Copyright © 2016年 Vie. All rights reserved.
 //
 
 #import "VIEShowMainViewController.h"
-#import "VIEShowLoginViewController.h"
+#import "VIELoginViewController.h"
 #import "VIEHTTPSessionManager.h"
 #import <UIImageView+WebCache.h>
 #import <MJRefresh/MJRefresh.h>
@@ -46,17 +46,25 @@ static NSString * const CellID = @"showMainTableViewCell";
     [super viewDidLoad];
 // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getData) name:@"SL_Close" object:nil];
     
+    UIBarButtonItem *bt = [[UIBarButtonItem alloc]init];
+    bt.title = @"TEST";
+    [self.navigationItem setLeftBarButtonItem:bt];
     
-   
-  
+    [self setupTableView];
+    
 }
 
-
+//初始化主界面的TableView
 -(void)setupTableView{
     
     UITableView *tv = [[UITableView alloc]init];
     tv.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    tv.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
+    // 设置滚动条的内边距
+    tv.scrollIndicatorInsets = tv.contentInset;
     
+    tv.separatorStyle = UITableViewCellSeparatorStyleNone;
+    tv.backgroundColor = [UIColor clearColor];
     tv.dataSource = self;
     tv.delegate = self;//不要忘记设置代理
     
@@ -66,9 +74,9 @@ static NSString * const CellID = @"showMainTableViewCell";
     [tv registerNib:[UINib nibWithNibName:NSStringFromClass([VIEShowMainTableViewCell class]) bundle:nil] forCellReuseIdentifier:CellID];
     
     
-    self.tv = tv;
-    [self.view addSubview:self.tv];
     
+    [self.view addSubview:tv];
+    self.tv = tv;
     self.i = 0;
     self.page = 1;//设定当前刷新页为第一页
 }
@@ -77,8 +85,9 @@ static NSString * const CellID = @"showMainTableViewCell";
 -(void)setupRefresh{
     self.tv.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
     self.tv.mj_header.automaticallyChangeAlpha = YES;
-    [self.tv.mj_header beginRefreshing];
     
+    
+    [self.tv.mj_header beginRefreshing];
 
     self.tv.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
    
@@ -87,6 +96,7 @@ static NSString * const CellID = @"showMainTableViewCell";
 
 //下拉刷新最新数据
 -(void)loadNewData{
+    [self.tv.mj_header endRefreshing];
     self.page = 1;
     NSString *path = @"2/statuses/friends_timeline.json";
     NSMutableDictionary *md = [NSMutableDictionary dictionary];
@@ -94,7 +104,7 @@ static NSString * const CellID = @"showMainTableViewCell";
  //   NSLog(@"%d",self.page);
     [self getTokenDic];
     if (self.dic == nil) {
-        NSLog(@"dic is nil,pushLogin");
+        NSLog(@"dic is nil,again");
         [self pushLogin];
     }else{
         md[@"access_token"]=self.dic[@"access_token"];
@@ -107,8 +117,9 @@ static NSString * const CellID = @"showMainTableViewCell";
                 VIEShowMainCellModel *smcm = [[VIEShowMainCellModel alloc]init];
                 smcm.created_at = dic[@"created_at"];
                 smcm.profile_image_url = dic[@"user"][@"profile_image_url"];
-                NSLog(@"%@",smcm.profile_image_url);
                 smcm.name = dic[@"user"][@"name"];
+                smcm.text = dic[@"text"];
+            //    NSLog(@"-------%@",smcm.text);
                 [marray addObject:smcm];
             }
         //    [self.topics addObjectsFromArray:marray];
@@ -126,7 +137,7 @@ static NSString * const CellID = @"showMainTableViewCell";
 
 //上拉刷新更多数据
 -(void)loadMoreData{
-    
+    [self.tv.mj_header endRefreshing];
     self.page++ ;
     NSString *path = @"2/statuses/friends_timeline.json";
     NSMutableDictionary *md = [NSMutableDictionary dictionary];
@@ -134,7 +145,7 @@ static NSString * const CellID = @"showMainTableViewCell";
   //  NSLog(@"%d",self.page);
     [self getTokenDic];
     if (self.dic == nil) {
-        NSLog(@"dic is nil,pushLogin");
+        NSLog(@"dic is nil,getTokenDic again");
         [self pushLogin];
     }else{
         md[@"access_token"]=self.dic[@"access_token"];
@@ -147,8 +158,10 @@ static NSString * const CellID = @"showMainTableViewCell";
                 VIEShowMainCellModel *smcm = [[VIEShowMainCellModel alloc]init];
                 smcm.created_at = dic[@"created_at"];
                 smcm.profile_image_url = dic[@"user"][@"profile_image_url"];
-                NSLog(@"%@",smcm.profile_image_url);
                 smcm.name = dic[@"user"][@"name"];
+                smcm.text = dic[@"text"];
+            //    NSLog(@"-------%@",smcm.text);
+
                 [marray addObject:smcm];
             }
             [self.topics addObjectsFromArray:marray];
@@ -163,24 +176,13 @@ static NSString * const CellID = @"showMainTableViewCell";
 
 //界面出现时执行刷新最新数据方法
 -(void)viewDidAppear:(BOOL)animated{
+    
     [self setupTableView];
     [self setupRefresh];
-   // [self loadNewData];
+    
+  //  [self loadNewData];
 }
 
-
-
-
-//弹出登录界面
--(void)pushLogin{
-    VIEShowLoginViewController *slv = [[VIEShowLoginViewController alloc]init];
-    /*
-    slv.block = ^(NSString *str){
-        //block传值
-    };
-     */
-    [self.navigationController pushViewController:slv animated:YES];
-}
 
 //从本地读取token
 -(void)getTokenDic{
@@ -193,6 +195,11 @@ static NSString * const CellID = @"showMainTableViewCell";
 
 }
 
+//弹出登录界面
+-(void)pushLogin{
+    VIELoginViewController *lvc = [[VIELoginViewController alloc]init];
+    [self.navigationController pushViewController:lvc animated:YES];
+}
 
 
 //表格行数
@@ -211,8 +218,11 @@ static NSString * const CellID = @"showMainTableViewCell";
 }
 
 
+//单元格高度
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 80;
+    VIEShowMainCellModel *smcm = self.topics[indexPath.row];
+    NSLog(@"-----%f",smcm.cellHeight);
+    return smcm.cellHeight;
 }
 
 

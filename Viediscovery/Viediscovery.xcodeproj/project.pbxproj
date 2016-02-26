@@ -14,12 +14,12 @@
 		303D5ED01C7A0239009D7864 /* VIEShowMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 303D5ECF1C7A0239009D7864 /* VIEShowMainViewController.m */; };
 		303D5ED31C7A025F009D7864 /* VIEHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 303D5ED21C7A025F009D7864 /* VIEHTTPSessionManager.m */; };
 		303D5ED91C7A0289009D7864 /* VIENavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 303D5ED71C7A0289009D7864 /* VIENavigationController.m */; };
-		303D5EDA1C7A0289009D7864 /* VIENavigationController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 303D5ED81C7A0289009D7864 /* VIENavigationController.xib */; };
 		303D5EDD1C7A0296009D7864 /* VIEShowLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 303D5EDC1C7A0296009D7864 /* VIEShowLoginViewController.m */; };
+		30BA79861C805B640021A379 /* VIELoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30BA79841C805B640021A379 /* VIELoginViewController.m */; };
+		30BA79871C805B640021A379 /* VIELoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30BA79851C805B640021A379 /* VIELoginViewController.xib */; };
 		30BC5C5E1C7B1EA20040F0BC /* VIEShowMainTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 30BC5C5C1C7B1EA20040F0BC /* VIEShowMainTableViewCell.m */; };
 		30BC5C5F1C7B1EA20040F0BC /* VIEShowMainTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30BC5C5D1C7B1EA20040F0BC /* VIEShowMainTableViewCell.xib */; };
 		30DA78E21C7DC7AD00FCF857 /* VIEShowMainCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 30DA78E11C7DC7AD00FCF857 /* VIEShowMainCellModel.m */; };
-		30DA78E81C7DDED300FCF857 /* VIETopicUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 30DA78E71C7DDED300FCF857 /* VIETopicUser.m */; };
 		4ECA4EBB779EA5E8BF008307 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 885E3B041C796E4528737BB3 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -37,16 +37,16 @@
 		303D5ED21C7A025F009D7864 /* VIEHTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIEHTTPSessionManager.m; sourceTree = "<group>"; };
 		303D5ED61C7A0289009D7864 /* VIENavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIENavigationController.h; sourceTree = "<group>"; };
 		303D5ED71C7A0289009D7864 /* VIENavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIENavigationController.m; sourceTree = "<group>"; };
-		303D5ED81C7A0289009D7864 /* VIENavigationController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VIENavigationController.xib; sourceTree = "<group>"; };
 		303D5EDB1C7A0296009D7864 /* VIEShowLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIEShowLoginViewController.h; sourceTree = "<group>"; };
 		303D5EDC1C7A0296009D7864 /* VIEShowLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIEShowLoginViewController.m; sourceTree = "<group>"; };
+		30BA79831C805B640021A379 /* VIELoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIELoginViewController.h; sourceTree = "<group>"; };
+		30BA79841C805B640021A379 /* VIELoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIELoginViewController.m; sourceTree = "<group>"; };
+		30BA79851C805B640021A379 /* VIELoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VIELoginViewController.xib; sourceTree = "<group>"; };
 		30BC5C5B1C7B1EA20040F0BC /* VIEShowMainTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIEShowMainTableViewCell.h; sourceTree = "<group>"; };
 		30BC5C5C1C7B1EA20040F0BC /* VIEShowMainTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIEShowMainTableViewCell.m; sourceTree = "<group>"; };
 		30BC5C5D1C7B1EA20040F0BC /* VIEShowMainTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VIEShowMainTableViewCell.xib; sourceTree = "<group>"; };
 		30DA78E01C7DC7AD00FCF857 /* VIEShowMainCellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIEShowMainCellModel.h; sourceTree = "<group>"; };
 		30DA78E11C7DC7AD00FCF857 /* VIEShowMainCellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIEShowMainCellModel.m; sourceTree = "<group>"; };
-		30DA78E61C7DDED300FCF857 /* VIETopicUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIETopicUser.h; sourceTree = "<group>"; };
-		30DA78E71C7DDED300FCF857 /* VIETopicUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIETopicUser.m; sourceTree = "<group>"; };
 		48593DF5420EA2A4C33E67EF /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		689F08FEA9B60719743C0F32 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		885E3B041C796E4528737BB3 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -110,6 +110,9 @@
 		303D5ECA1C7A00AB009D7864 /* 登录界面 */ = {
 			isa = PBXGroup;
 			children = (
+				30BA79831C805B640021A379 /* VIELoginViewController.h */,
+				30BA79841C805B640021A379 /* VIELoginViewController.m */,
+				30BA79851C805B640021A379 /* VIELoginViewController.xib */,
 				303D5EDB1C7A0296009D7864 /* VIEShowLoginViewController.h */,
 				303D5EDC1C7A0296009D7864 /* VIEShowLoginViewController.m */,
 			);
@@ -140,7 +143,6 @@
 			children = (
 				303D5ED61C7A0289009D7864 /* VIENavigationController.h */,
 				303D5ED71C7A0289009D7864 /* VIENavigationController.m */,
-				303D5ED81C7A0289009D7864 /* VIENavigationController.xib */,
 			);
 			name = "根控制器";
 			sourceTree = "<group>";
@@ -150,8 +152,6 @@
 			children = (
 				30DA78E01C7DC7AD00FCF857 /* VIEShowMainCellModel.h */,
 				30DA78E11C7DC7AD00FCF857 /* VIEShowMainCellModel.m */,
-				30DA78E61C7DDED300FCF857 /* VIETopicUser.h */,
-				30DA78E71C7DDED300FCF857 /* VIETopicUser.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -221,8 +221,9 @@
 		303D5EA81C7A0077009D7864 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = VIE;
 				LastUpgradeCheck = 0720;
-				ORGANIZATIONNAME = "李亚飞";
+				ORGANIZATIONNAME = Vie;
 				TargetAttributes = {
 					303D5EAF1C7A0077009D7864 = {
 						CreatedOnToolsVersion = 7.2;
@@ -254,9 +255,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				303D5EC31C7A0077009D7864 /* LaunchScreen.storyboard in Resources */,
+				30BA79871C805B640021A379 /* VIELoginViewController.xib in Resources */,
 				303D5EC01C7A0077009D7864 /* Assets.xcassets in Resources */,
 				30BC5C5F1C7B1EA20040F0BC /* VIEShowMainTableViewCell.xib in Resources */,
-				303D5EDA1C7A0289009D7864 /* VIENavigationController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -318,9 +319,9 @@
 				303D5ED91C7A0289009D7864 /* VIENavigationController.m in Sources */,
 				303D5EB81C7A0077009D7864 /* AppDelegate.m in Sources */,
 				303D5EDD1C7A0296009D7864 /* VIEShowLoginViewController.m in Sources */,
+				30BA79861C805B640021A379 /* VIELoginViewController.m in Sources */,
 				30BC5C5E1C7B1EA20040F0BC /* VIEShowMainTableViewCell.m in Sources */,
 				30DA78E21C7DC7AD00FCF857 /* VIEShowMainCellModel.m in Sources */,
-				30DA78E81C7DDED300FCF857 /* VIETopicUser.m in Sources */,
 				303D5ED31C7A025F009D7864 /* VIEHTTPSessionManager.m in Sources */,
 				303D5ED01C7A0239009D7864 /* VIEShowMainViewController.m in Sources */,
 				303D5EB51C7A0077009D7864 /* main.m in Sources */,
